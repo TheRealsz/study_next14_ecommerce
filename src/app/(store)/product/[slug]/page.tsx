@@ -1,24 +1,57 @@
+import { api } from "@/data/api";
+import { Product } from "@/data/types/product";
 import Image from "next/image";
 
-export default function ProductPage() {
+interface IProductPage {
+    params: {
+        slug: string;
+    }
+}
+
+async function getProduct(slug: string): Promise<Product> {
+    const response = await api(`/products/${slug}`);
+    if (!response.ok) {
+        console.error('Failed to fetch featured products');
+    }
+    const product = await response.json();
+    return product;
+}
+
+export default async function ProductPage({ params }: IProductPage) {
+    const product = await getProduct(params.slug);
+
     return (
         <div className="relative grid max-h-[860px] grid-cols-3">
             <div className="col-span-2 overflow-hidden">
                 <Image
-                    src="/moletom-never-stop-learning.png"
+                    src={product.image}
                     width={920}
                     height={920}
                     quality={100}
-                    alt="Moletom Never Stop Learning"
+                    alt={product.title}
                     objectFit="cover"
                 />
             </div>
             <div className="flex flex-col justify-center px-12">
-                <h1 className="text-3xl font-semibold leading-tight">Moletom Never Stop Learning</h1>
-                <p className="text-zinc-400 mt-2 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga illo vel architecto optio consectetur dicta ipsum nemo, officiis reprehenderit sint id harum voluptate reiciendis facilis dolorem ab eos? Nesciunt, illum.</p>
+                <h1 className="text-3xl font-semibold leading-tight">{product.title}</h1>
+                <p className="text-zinc-400 mt-2 leading-relaxed">{product.description}</p>
                 <div className="flex items-center gap-3 mt-8">
-                    <span className="inline-block rounded-full bg-violet-500 px-5 py-2.5 font-semibold">R$129</span>
-                    <span className="text-sm text-zinc-400">Em 12x s/ juros de R$10,75</span>
+                    <span className="inline-block rounded-full bg-violet-500 px-5 py-2.5 font-semibold">
+                        {
+                            product.price.toLocaleString("pr-BR", {
+                                style: "currency",
+                                currency: "BRL"
+                            })
+                        }
+                    </span>
+                    <span className="text-sm text-zinc-400">Em 12x s/ juros de
+                        {
+                            (product.price / 12).toLocaleString("pr-BR", {
+                                style: "currency",
+                                currency: "BRL"
+                            })
+                        }
+                    </span>
                 </div>
                 <div className="mt-8 space-y-4">
                     <span className="block font-semibold">Tamanhos</span>
