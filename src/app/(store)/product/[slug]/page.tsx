@@ -1,5 +1,6 @@
 import { api } from "@/data/api";
 import { Product } from "@/data/types/product";
+import { Metadata } from "next";
 import Image from "next/image";
 
 interface IProductPage {
@@ -9,12 +10,30 @@ interface IProductPage {
 }
 
 async function getProduct(slug: string): Promise<Product> {
-    const response = await api(`/products/${slug}`);
+    const response = await api(`/products/${slug}`,
+        {
+            // Quero que a informaçao cacheada seja atualizada a cada 10 minutos
+            next: {
+                revalidate: 60 * 10
+            }
+        }
+    );
     if (!response.ok) {
         console.error('Failed to fetch featured products');
     }
     const product = await response.json();
     return product;
+}
+
+export async function generateMetadata({ params }: IProductPage) : Promise<Metadata> {
+    const product = await getProduct(params.slug);
+    return {
+        title: product.title,
+        description: product.description,
+        openGraph: {
+            images: [product.image]
+        }
+    }
 }
 
 export default async function ProductPage({ params }: IProductPage) {

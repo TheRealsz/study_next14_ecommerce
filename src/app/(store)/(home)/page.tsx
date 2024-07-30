@@ -1,10 +1,21 @@
 import { api } from "@/data/api";
 import { Product } from "@/data/types/product";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+export const metadata : Metadata = {
+    title: "Home",
+    description: "Project to apply the concepts of NextJS 14"
+};
+
 async function getFeaturedProducts(): Promise<Product[]> {
-    const response = await api('/products/featured');
+    const response = await api('/products/featured', {
+        // Quero que a informaçao cacheada seja atualizada a cada 24 horas
+        next: {
+            revalidate: 60 * 60 * 24
+        }
+    });
     if (!response.ok) {
         console.error('Failed to fetch featured products');
     }

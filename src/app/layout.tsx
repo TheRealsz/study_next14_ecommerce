@@ -4,8 +4,12 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// Define o template para o metadata (alguma coisa | NextJS 14 Study), juntamente com um título padrão caso não seja passado
 export const metadata: Metadata = {
-  title: "E-commerce | NextJS 14 Study",
+  title: {
+    template: "%s | NextJS 14 Study",
+    default: "NextJS 14 Study",
+  },
   description: "Project to apply the concepts of NextJS 14",
 };
 
