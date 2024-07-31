@@ -19,13 +19,13 @@ async function getProduct(slug: string): Promise<Product> {
         }
     );
     if (!response.ok) {
-        console.error('Failed to fetch featured products');
+        console.error('Failed to fetch the product');
     }
     const product = await response.json();
     return product;
 }
 
-export async function generateMetadata({ params }: IProductPage) : Promise<Metadata> {
+export async function generateMetadata({ params }: IProductPage): Promise<Metadata> {
     const product = await getProduct(params.slug);
     return {
         title: product.title,
@@ -34,6 +34,20 @@ export async function generateMetadata({ params }: IProductPage) : Promise<Metad
             images: [product.image]
         }
     }
+}
+
+export async function generateStaticParams() {
+    const response = await api("/products/featured")
+
+    if (!response.ok) {
+        console.error('Failed to fetch the featured products');
+    }
+
+    const featuredProducts: Product[] = await response.json()
+
+    return featuredProducts.map(product => {
+        return { slug: product.slug }
+    })
 }
 
 export default async function ProductPage({ params }: IProductPage) {
