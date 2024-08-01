@@ -30,9 +30,9 @@ export async function generateMetadata({ params }: IProductPage): Promise<Metada
     return {
         title: product.title,
         description: product.description,
-        openGraph: {
-            images: [product.image]
-        }
+        // openGraph: {
+        //     images: [product.image]
+        // }
     }
 }
 
