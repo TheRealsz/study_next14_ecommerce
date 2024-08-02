@@ -4,14 +4,14 @@ import { createContext, useContext, useState } from "react";
 
 // Definir o tipo de um item do carrinho
 interface CartItem {
-    productId: string
+    productId: number
     quantity: number
 }
 
 // Definir o tipo do contexto e o que ele deve conter 
 interface CartContextType {
     items: CartItem[];
-    addToCart: (productId: string) => void;
+    addToCart: (productId: number) => void;
 }
 
 const CartContext = createContext({} as CartContextType);
@@ -20,7 +20,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-    function addToCart(productId: string) {
+    function addToCart(productId: number) {
         // Verificando se o produto já está no carrinho
         setCartItems((oldState) => {
             const productInCart = oldState.some((item) => item.productId === productId);

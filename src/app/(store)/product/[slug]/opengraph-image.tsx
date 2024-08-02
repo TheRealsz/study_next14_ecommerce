@@ -21,14 +21,7 @@ export const size = {
 export const contentType = 'image/png'
 
 async function getProduct(slug: string): Promise<Product> {
-    const response = await api(`/products/${slug}`,
-        {
-            // Quero que a informaçao cacheada seja atualizada a cada 10 minutos
-            next: {
-                revalidate: 60 * 10
-            }
-        }
-    );
+    const response = await api(`/products/${slug}`);
     if (!response.ok) {
         console.error('Failed to fetch the product');
     }
