@@ -22,11 +22,11 @@ export async function GET(request: NextRequest) {
     const query = z.string().parse(searchParams.get('q'))
 
     // Verificando se o titulo do produto inclui a busca do usuario
-    const product = products.find((product) => product.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
+    const product = products.filter((product) => product.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
 
     if (!product) {
         return Response.json({ message: "Product not found" }, { status: 400 });
     }
 
-    return Response.json(product);
+    return Response.json(Array.isArray(product) ? product : [product]);
 }
