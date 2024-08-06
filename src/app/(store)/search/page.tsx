@@ -31,8 +31,7 @@ export default async function Search({ searchParams }: ISearch) {
     const products = await getSearchProducts(query);
     return (
         <div className="flex flex-col gap-4">
-            <p className="text-sm">Resultados para:
-                <span className="font-semibold">{query}</span>
+            <p className="text-sm">Resultados para: <span className="font-semibold">{query}</span>
             </p>
             <div className="grid grid-cols-3 gap-6">
                 {
