@@ -1,10 +1,13 @@
 // describe é uma caracterizaçao dos testes, e cada teste é feito dentro de um it
 describe('add product to cart', () => {
-  it('should be able to navigate to the product page and add to cart', () => {
+  beforeEach(() => {
     // cy.viewport é uma função do cypress que define o tamanho da tela
     cy.viewport("macbook-16")
     // cy é uma variável global do cypress
-    cy.visit('http://localhost:3000')
+    cy.visit('/')
+  })
+
+  it('should be able to navigate to the product page and add to cart', () => {
 
     // cy.get é uma função do cypress que busca um elemento na tela com base no seletor passado
     // cy.get('a[href^="/product"]').first().click() busca o primeiro elemento que é um link e que começa com "/product" e clica nele
@@ -19,8 +22,6 @@ describe('add product to cart', () => {
     cy.get("span").contains("Cart (1)").should("exist")
   })
   it('should not be able duplicated product on cart', () => {
-    cy.viewport("macbook-16")
-    cy.visit('http://localhost:3000')
 
     cy.get('a[href^="/product"]').first().click()
 
@@ -34,8 +35,6 @@ describe('add product to cart', () => {
     cy.get("span").contains("Cart (1)").should("exist")
   })
   it('should be able to search a product and add it to the cart', () => {
-    cy.viewport("macbook-16")
-    cy.visit('http://localhost:3000')
 
     cy.get('input[name="q"]').type("Camiseta").type("{enter}")
     
