@@ -1,14 +1,11 @@
 // describe é uma caracterizaçao dos testes, e cada teste é feito dentro de um it
 describe('add product to cart', () => {
     beforeEach(() => {
-      // cy.viewport é uma função do cypress que define o tamanho da tela
       cy.viewport("macbook-16")
-      // cy é uma variável global do cypress
-      cy.visit('/')
     })
     it('should be able to search products', () => {
-  
-      cy.get('input[name="q"]').type("Camiseta").type("{enter}")
+        
+      cy.searchByQuery('Camiseta')
 
       cy.location('pathname').should('include', '/search')
       cy.location('search').should('include', 'q=Camiseta')
