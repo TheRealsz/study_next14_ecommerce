@@ -19,6 +19,7 @@ jobs:
           cache: 'npm'
       - run: npm i
 
+      # Instalação do Cypress, processo de build e testes
       - name: Cypress run
         uses: cypress-io/github-action@v6
         # Definindo as variaveis ambiente
