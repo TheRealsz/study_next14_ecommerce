@@ -1,0 +1,12 @@
+
+services:   # Define os serviços (containers)
+  app:   # Nome do serviço (pode ser qualquer nome)
+    build: .  # Usa a imagem do dockerfile da raiz do projeto
+    working_dir: /app   # Define o diretório de trabalho dentro do container
+    volumes:
+      - .:/app  # Mapeia o código do host para dentro do container
+      - /app/node_modules
+      - /app/.next  
+    ports:
+      - "3000:3000"   # Mapeia a porta 3000 do container para a máquina
+    command: npm run dev   # Comando que será executado quando o container iniciar
